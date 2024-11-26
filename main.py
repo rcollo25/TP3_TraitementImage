@@ -14,11 +14,9 @@ from other_tools import get_model_information
 from train_process import train_model
 from test_process import test_model
 
-import os
 
 # Get the current path of the folder
 chemin_courant = os.getcwd()
-print(f"Chemin actuel : {chemin_courant}")
 
 ########################################################################################################################
 #                                                    USER PARAMETERS                                                   #

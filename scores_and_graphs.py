@@ -80,7 +80,7 @@ def show_compute_model_performances(y_true, y_predicted, loss, my_score_df, clas
     txt_file.write("\n")
     scores.extend([balanced_accuracy])
     # F1-score
-    f1 = f1_score(y_int_true, y_int_predicted, average="micro")
+    f1 = f1_score(y_int_true, y_int_predicted, average="micro", zero_division=0)
     print("F1-score: " + str(f1))
     txt_file.write("F1-score: " + str(f1))
     txt_file.write("\n")

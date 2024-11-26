@@ -97,8 +97,8 @@ def show_compute_model_performances(y_true, y_predicted, loss, my_score_df, clas
         txt_file.write(str(confusion_matrix(y_int_true, y_int_predicted)))
         txt_file.write("\n")
     # Classification report
-    print(classification_report(y_int_true, y_int_predicted, target_names=classes))
-    txt_file.write(classification_report(y_int_true, y_int_predicted, target_names=classes))
+    print(classification_report(y_int_true, y_int_predicted, target_names=classes, zero_division=0))
+    txt_file.write(classification_report(y_int_true, y_int_predicted, target_names=classes, zero_division=0))
     txt_file.write("\n")
     # Top 2 accuracy
     top_2 = top_k_accuracy_score(y_int_true, y_predicted, k=2)

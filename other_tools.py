@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def get_model_information(model, txt_file):
 
     # Get and print information about the parameter number

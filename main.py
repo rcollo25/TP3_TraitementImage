@@ -14,13 +14,15 @@ from other_tools import get_model_information
 from train_process import train_model
 from test_process import test_model
 
+
+
 ########################################################################################################################
 #                                                    USER PARAMETERS                                                   #
 ########################################################################################################################
 
 # Define the path of the dataset to use
 dataset_path = ("C:\\Users\\ryan4\\OneDrive\\Documents\\RYAN\\ISEN\\Année24-25_UQAC\\Trimestre1\\Traitement_image\\"
-                "pythonProject\\TP3_TraitementImage\\Dataset 1")
+                "pythonProject\\TP3_TraitementImage\\Dataset 5")
 
 # Define the path where to save the results
 results_path = ("C:\\Users\\ryan4\\OneDrive\\Documents\\RYAN\\ISEN\\Année24-25_UQAC\\Trimestre1\\Traitement_image\\"
@@ -79,11 +81,13 @@ if choice_methode == 0:
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 else:
     # Define the transformations to apply to x data (for CNN)
-    transform = transforms.Compose([transforms.Resize((240, 240)), transforms.ToTensor()])
+    transform = transforms.Compose([
+        transforms.Resize((240, 240)),
+        transforms.ToTensor()])
 
 # Define the transformations to apply to y labels
 target_transform = \
-    transforms.Compose([transforms.Lambda(lambda y: torch.zeros(7, dtype=torch.float).scatter_(0, torch.tensor(y),
+    transforms.Compose([transforms.Lambda(lambda y: torch.zeros(8, dtype=torch.float).scatter_(0, torch.tensor(y),
                                                                                                value=1))])
 
 """" Train, validation and test sets """
@@ -92,6 +96,7 @@ dataset = torchvision.datasets.ImageFolder(dataset_path, transform=transform, ta
 
 # Divide the dataset into a train, validation and test sets
 generator1 = torch.Generator().manual_seed(42)
+#dataset_take, dataset_lost = random_split(dataset,[0.5, 0.5], generator=generator1)
 train_set, validation_set, test_set = random_split(dataset,[0.7, 0.15, 0.15], generator=generator1)
 
 # Create the Python iterator for the train set (creating mini-batches)
@@ -166,3 +171,4 @@ if choice_methode == 0:
     print("\nThe program are saving the trained model. Please wait ...")
     torch.save(model.state_dict(), os.path.join(results_path, my_folder_name, "my_model.pth"))
     print("\nModel saved")
+

@@ -46,7 +46,7 @@ def model_performances(y_true, y_predicted, loss, my_score_df):
     scores.extend([loss])
     scores.extend([accuracy_score(y_int_true, y_int_predicted)])
     scores.extend([balanced_accuracy_score(y_int_true, y_int_predicted)])
-    scores.extend([f1_score(y_int_true, y_int_predicted, average="micro")])
+    scores.extend([f1_score(y_int_true, y_int_predicted, average="micro", zero_division=0)])
     scores.extend([cohen_kappa_score(y_int_true, y_int_predicted)])
     scores.extend([top_k_accuracy_score(y_int_true, y_predicted, k=2)])
     scores.extend([top_k_accuracy_score(y_int_true, y_predicted, k=3)])

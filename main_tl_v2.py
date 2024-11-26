@@ -93,6 +93,9 @@ dataset = torchvision.datasets.ImageFolder(dataset_path, transform=transform, ta
 # Divide the dataset into a train, validation and test sets
 generator1 = torch.Generator().manual_seed(42)
 train_set, validation_set, test_set = random_split(dataset,[0.7, 0.15, 0.15], generator=generator1)
+print(train_set)
+print(validation_set)
+print(test_set)
 
 # Create the Python iterator for the train set (creating mini-batches)
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)

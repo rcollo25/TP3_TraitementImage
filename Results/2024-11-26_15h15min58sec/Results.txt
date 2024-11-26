@@ -1,0 +1,77 @@
+Model Information
+    - Model: ResNet50
+    - Task: Classification
+    - Type of training: Transfer learning
+
+Hyperparameters
+    - Epoch number: 10
+    - Batch size: 32
+    - Learning rate: 0.001
+
+Model Summary
+======================================================================================================================================================
+                                   Layer Name                                     Number of Trainable Parameters  Number of (non trainable) Parameters
+                                Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1))                1792                               0                  
+                                                                          ReLU()                   0                               0                  
+ BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                 128                               0                  
+                               Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2))               36928                               0                  
+                                                                          ReLU()                   0                               0                  
+ BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                 128                               0                  
+                              Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1))               73856                               0                  
+                                                                          ReLU()                   0                               0                  
+BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                 256                               0                  
+                             Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2))              147584                               0                  
+                                                                          ReLU()                   0                               0                  
+BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                 256                               0                  
+                             Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1))              295168                               0                  
+                                                                          ReLU()                   0                               0                  
+BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                 512                               0                  
+                             Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2))              590080                               0                  
+                                                                          ReLU()                   0                               0                  
+BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                 512                               0                  
+                             Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1))             1180160                               0                  
+                                                                          ReLU()                   0                               0                  
+BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                1024                               0                  
+                             Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2))             2359808                               0                  
+                                                                          ReLU()                   0                               0                  
+BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)                1024                               0                  
+                          Linear(in_features=73728, out_features=120, bias=True)             8847480                               0                  
+                                                                          ReLU()                   0                               0                  
+                             Linear(in_features=120, out_features=84, bias=True)               10164                               0                  
+                                                                          ReLU()                   0                               0                  
+                               Linear(in_features=84, out_features=7, bias=True)                 595                               0                  
+                                                                  Softmax(dim=1)                   0                               0                  
+======================================================================================================================================================
+Total
+    Trainable Parameters: 13547455
+    Non Trainable Parameters: 0
+======================================================================================================================================================
+
+
+Accuracy: 0.3148148148148148
+Balanced Accuracy: 0.23416665736825076
+F1-score: 0.3148148148148148
+Kappa: 0.13803516885537281
+[[25 34  0  0  0  0  0]
+ [ 6 50  0  0  0  0  0]
+ [13 19  0  0  1  0  0]
+ [11 16  0  0  1  0  0]
+ [14  8  0  0  9  0  0]
+ [14 10  0  0  6  1  0]
+ [19 12  0  0  1  0  0]]
+              precision    recall  f1-score   support
+
+        bike       0.25      0.42      0.31        59
+        cars       0.34      0.89      0.49        56
+        cats       0.00      0.00      0.00        33
+        dogs       0.00      0.00      0.00        28
+     flowers       0.50      0.29      0.37        31
+      horses       1.00      0.03      0.06        31
+       human       0.00      0.00      0.00        32
+
+    accuracy                           0.31       270
+   macro avg       0.30      0.23      0.18       270
+weighted avg       0.30      0.31      0.22       270
+
+Top 2 Accuracy: 0.4925925925925926
+Top 3 Accuracy: 0.6555555555555556

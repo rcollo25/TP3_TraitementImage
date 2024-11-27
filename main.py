@@ -15,18 +15,18 @@ from train_process import train_model
 from test_process import test_model
 
 
+# Get the current path of the folder
+chemin_courant = os.getcwd()
 
 ########################################################################################################################
 #                                                    USER PARAMETERS                                                   #
 ########################################################################################################################
 
 # Define the path of the dataset to use
-dataset_path = ("C:\\Users\\ryan4\\OneDrive\\Documents\\RYAN\\ISEN\\Année24-25_UQAC\\Trimestre1\\Traitement_image\\"
-                "pythonProject\\TP3_TraitementImage\\Dataset 5")
+dataset_path = (f"{chemin_courant}\\Dataset 5")
 
 # Define the path where to save the results
-results_path = ("C:\\Users\\ryan4\\OneDrive\\Documents\\RYAN\\ISEN\\Année24-25_UQAC\\Trimestre1\\Traitement_image\\"
-                "pythonProject\\TP3_TraitementImage\\Results")
+results_path = (f"{chemin_courant}\\Results")
 
 # Define the number of epochs of the model training
 epoch_number = 10

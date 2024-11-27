@@ -70,10 +70,18 @@ print("\nResult folder created")
 txt_file = open(os.path.join(results_path, my_folder_name, "Results.txt"), "a")
 
 # Write information about the architecture used for classification
-txt_file.write("Model Information\n")
-txt_file.write("    - Model: ResNet50\n")
-txt_file.write("    - Task: Classification\n")
-txt_file.write("    - Type of training: Transfer learning\n\n")
+if choice_methode == 0:
+    txt_file.write("Model Information\n")
+    txt_file.write("    - Model: ResNet50_Weights.IMAGENET1K_V2\n")
+    txt_file.write("    - Task: Classification\n")
+    txt_file.write("    - Type of training: Transfer learning\n\n")
+
+else:
+    txt_file.write("Model Information\n")
+    txt_file.write("    - Model: Réseau de neurones convolutifs (CNN)\n")
+    txt_file.write("    - Task: Classification\n")
+    txt_file.write("    - Type of training: CNN\n\n")
+
 # Write information about hyperparameters
 txt_file.write("Hyperparameters\n")
 txt_file.write("    - Epoch number: " + str(epoch_number) + "\n")

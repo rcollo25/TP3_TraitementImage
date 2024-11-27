@@ -9,7 +9,7 @@ from torchvision import models
 import torchvision.transforms as transforms
 from torch.utils.data import random_split
 
-from CNN_Architectures import CNNClassifier
+from CNN_Architectures import CNNClassifier, CNNClassifier_1
 from other_tools import get_model_information
 from train_process import train_model
 from test_process import test_model
@@ -21,9 +21,18 @@ chemin_courant = os.getcwd()
 ########################################################################################################################
 #                                                    USER PARAMETERS                                                   #
 ########################################################################################################################
-
 # Define the path of the dataset to use
-dataset_path = (f"{chemin_courant}\\Dataset")
+choice_dataset = input("Entrer le dataset souhaité : 1 -> Dataset_reduced (plus rapide) & 0 -> Dataset_complete (plus lent)\nVotre choix :")
+while choice_dataset != "0" and choice_dataset != "1":
+    print("Erreur la valeur entrée est fausse !")
+    choice_dataset = input("Entrer le dataset souhaité : 1 -> Dataset_reduced (plus rapide) & 0 -> Dataset_complet (plus lent)\nVotre choix :")
+
+if choice_dataset == "1":
+    dataset_path = (f"{chemin_courant}\\Dataset_reduced")
+    print("Dataset choisi : Dataset_reduced")
+else:
+    dataset_path = (f"{chemin_courant}\\Dataset_complete")
+    print("Dataset choisi : Dataset_complete")
 
 # Define the path where to save the results
 results_path = (f"{chemin_courant}\\Results")
@@ -38,10 +47,10 @@ batch_size = 32
 learning_rate = 0.001
 
 # Define the methode to use
-choice_methode = input("Entrer la méthode de classification souhaitée : 1 -> CNN & 0 -> transfert learning (par défaut)\nVotre choix :")
+choice_methode = input("Entrer la méthode de classification souhaitée : 1 -> CNN & 0 -> transfert learning\nVotre choix :")
 while choice_methode != "0" and choice_methode != "1":
     print("Erreur la valeur entrée est fausse !")
-    choice_methode = input("Entrer la méthode de classification souhaitée : 1 -> CNN & 0 -> transfert learning (par défaut)\nVotre choix :")
+    choice_methode = input("Entrer la méthode de classification souhaitée : 1 -> CNN & 0 -> transfert learning\nVotre choix :")
 
 if choice_methode == "0":
     choice_methode = 0
@@ -107,9 +116,14 @@ else:
         transforms.ToTensor()])
 
 # Define the transformations to apply to y labels
-target_transform = \
-    transforms.Compose([transforms.Lambda(lambda y: torch.zeros(16, dtype=torch.float).scatter_(0, torch.tensor(y),
-                                                                                               value=1))])
+if choice_dataset == "1":
+    target_transform = \
+        transforms.Compose([transforms.Lambda(lambda y: torch.zeros(16, dtype=torch.float).scatter_(0, torch.tensor(y),
+                                                                                                    value=1))])
+else:
+    target_transform = \
+        transforms.Compose([transforms.Lambda(lambda y: torch.zeros(33, dtype=torch.float).scatter_(0, torch.tensor(y),
+                                                                                                   value=1))])
 
 """" Train, validation and test sets """
 # Load the dataset by applying transformations
@@ -156,7 +170,10 @@ if choice_methode == 0:
     model = model.to(device)
 else:
     # Instantiate and move the model to GPU
-    model = CNNClassifier(in_channel=image_channel, output_dim=class_number).to(device)
+    if choice_dataset == "1":
+        model = CNNClassifier(in_channel=image_channel, output_dim=class_number).to(device)
+    else:
+        model = CNNClassifier_1(in_channel=image_channel, output_dim=class_number).to(device)
 
 # Print information about the model
 get_model_information(model, txt_file)

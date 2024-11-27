@@ -38,7 +38,7 @@ batch_size = 32
 learning_rate = 0.001
 
 # Define the methode to use
-choice_methode = 0  # 0 = transfer learning ; 1 = CNN
+choice_methode = 1  # 0 = transfer learning ; 1 = CNN
 
 ########################################################################################################################
 #                                       CREATE A FOLDER AND FILE TO SAVE RESULTS                                       #
@@ -47,7 +47,10 @@ choice_methode = 0  # 0 = transfer learning ; 1 = CNN
 # Get the date and time
 now = datetime.now()
 # Create the folder name
-my_folder_name = now.strftime("%Y-%m-%d_%H" + "h" + "%M" + "min" + "%S" + "sec")
+if choice_methode == 0:
+    my_folder_name = now.strftime("%Y-%m-%d_%H" + "h" + "%M" + "min" + "%S" + "sec_Transfert_Learning_Result")
+else:
+    my_folder_name = now.strftime("%Y-%m-%d_%H" + "h" + "%M" + "min" + "%S" + "sec_CNN_Result")
 # Create the folder
 os.makedirs(os.path.join(results_path, my_folder_name))
 # Print a message in the console

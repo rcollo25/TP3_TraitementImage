@@ -66,6 +66,9 @@ def show_compute_model_performances(y_true, y_predicted, loss, my_score_df, clas
     y_int_true, y_int_predicted = vec_to_int(y_true, y_predicted)
 
     # Compute scores, add them to the list scores and show them
+    print("Loss: " + str(loss))
+    txt_file.write("Loss: " + str(loss))
+    txt_file.write("\n")
     scores.extend([loss])
     # Accuracy
     accuracy = accuracy_score(y_int_true, y_int_predicted)

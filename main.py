@@ -9,7 +9,7 @@ from torchvision import models
 import torchvision.transforms as transforms
 from torch.utils.data import random_split
 
-from CNN_Architectures import CNNClassifier_1, CNNClassifier_2
+from CNN_Architectures import CNNClassifier
 from other_tools import get_model_information
 from train_process import train_model
 from test_process import test_model
@@ -23,7 +23,7 @@ chemin_courant = os.getcwd()
 ########################################################################################################################
 
 # Define the path of the dataset to use
-dataset_path = (f"{chemin_courant}\\Dataset 5")
+dataset_path = (f"{chemin_courant}\\Dataset")
 
 # Define the path where to save the results
 results_path = (f"{chemin_courant}\\Results")
@@ -38,7 +38,7 @@ batch_size = 32
 learning_rate = 0.001
 
 # Define the methode to use
-choice_methode = 1  # 0 = transfer learning ; 1 = CNN
+choice_methode = 0  # 0 = transfer learning ; 1 = CNN
 
 ########################################################################################################################
 #                                       CREATE A FOLDER AND FILE TO SAVE RESULTS                                       #
@@ -87,7 +87,7 @@ else:
 
 # Define the transformations to apply to y labels
 target_transform = \
-    transforms.Compose([transforms.Lambda(lambda y: torch.zeros(8, dtype=torch.float).scatter_(0, torch.tensor(y),
+    transforms.Compose([transforms.Lambda(lambda y: torch.zeros(16, dtype=torch.float).scatter_(0, torch.tensor(y),
                                                                                                value=1))])
 
 """" Train, validation and test sets """
@@ -96,7 +96,6 @@ dataset = torchvision.datasets.ImageFolder(dataset_path, transform=transform, ta
 
 # Divide the dataset into a train, validation and test sets
 generator1 = torch.Generator().manual_seed(42)
-#dataset_take, dataset_lost = random_split(dataset,[0.5, 0.5], generator=generator1)
 train_set, validation_set, test_set = random_split(dataset,[0.7, 0.15, 0.15], generator=generator1)
 
 # Create the Python iterator for the train set (creating mini-batches)
@@ -136,7 +135,7 @@ if choice_methode == 0:
     model = model.to(device)
 else:
     # Instantiate and move the model to GPU
-    model = CNNClassifier_1(in_channel=image_channel, output_dim=class_number).to(device)
+    model = CNNClassifier(in_channel=image_channel, output_dim=class_number).to(device)
 
 # Print information about the model
 get_model_information(model, txt_file)
@@ -167,8 +166,7 @@ txt_file.close()
 #                                                SAVE THE TRAINED MODEL                                                #
 ########################################################################################################################
 
-if choice_methode == 0:
-    print("\nThe program are saving the trained model. Please wait ...")
-    torch.save(model.state_dict(), os.path.join(results_path, my_folder_name, "my_model.pth"))
-    print("\nModel saved")
+print("\nThe program are saving the trained model. Please wait ...")
+torch.save(model.state_dict(), os.path.join(results_path, my_folder_name, "my_model.pth"))
+print("\nModel saved")
 

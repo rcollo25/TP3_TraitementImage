@@ -38,7 +38,17 @@ batch_size = 32
 learning_rate = 0.001
 
 # Define the methode to use
-choice_methode = 1  # 0 = transfer learning ; 1 = CNN
+choice_methode = input("Entrer la méthode de classification souhaitée : 1 -> CNN & 0 -> transfert learning (par défaut)\nVotre choix :")
+while choice_methode != "0" and choice_methode != "1":
+    print("Erreur la valeur entrée est fausse !")
+    choice_methode = input("Entrer la méthode de classification souhaitée : 1 -> CNN & 0 -> transfert learning (par défaut)\nVotre choix :")
+
+if choice_methode == "0":
+    choice_methode = 0
+    print("Méthode choisie : Transfert learning")
+else:
+    choice_methode = 1
+    print("Méthode choisie : CNN")
 
 ########################################################################################################################
 #                                       CREATE A FOLDER AND FILE TO SAVE RESULTS                                       #

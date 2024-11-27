@@ -26,7 +26,11 @@ class CNNClassifier(nn.Module):
         self.relu5 = nn.ReLU()
         self.BN5 = nn.BatchNorm2d(256)
 
-        self.fc1 = nn.Linear(774400, 120)
+        self.conv6 = nn.Conv2d(256, 256, 3, 2)
+        self.relu6 = nn.ReLU()
+        self.BN6 = nn.BatchNorm2d(256)
+
+        self.fc1 = nn.Linear(186624, 120)
         self.relufc1 = nn.ReLU()
 
         self.fc2 = nn.Linear(120, 84)
@@ -58,7 +62,11 @@ class CNNClassifier(nn.Module):
         a5 = self.relu5(z5)
         a5 = self.BN5(a5)
 
-        a8 = flatten(a5, 1)
+        z6 = self.conv6(a5)
+        a6 = self.relu6(z6)
+        a6 = self.BN6(a6)
+
+        a8 = flatten(a6, 1)
 
         z9 = self.fc1(a8)
         a9 = self.relufc1(z9)
@@ -289,3 +297,71 @@ class CNNClassifier_2(nn.Module):
         y = self.act_output(z15)
 
         return y
+
+
+class CNNClassifier_3(nn.Module):
+    def __init__(self, in_channel, output_dim):
+        super(CNNClassifier_3, self).__init__()
+
+        # Couches convolutionnelles
+        self.conv1 = nn.Conv2d(in_channel, 64, 3, padding=1)  # 64 filtres de taille 3x3
+        self.relu1 = nn.ReLU()
+        self.bn1 = nn.BatchNorm2d(64)
+
+        self.conv2 = nn.Conv2d(64, 128, 3, stride=2, padding=1)  # 128 filtres, stride 2
+        self.relu2 = nn.ReLU()
+        self.bn2 = nn.BatchNorm2d(128)
+
+        self.conv3 = nn.Conv2d(128, 256, 3, padding=1)  # 256 filtres
+        self.relu3 = nn.ReLU()
+        self.bn3 = nn.BatchNorm2d(256)
+
+        self.conv4 = nn.Conv2d(256, 512, 3, stride=2, padding=1)  # 512 filtres, stride 2
+        self.relu4 = nn.ReLU()
+        self.bn4 = nn.BatchNorm2d(512)
+
+        # Global Average Pooling (GAP) pour éviter trop de paramètres dans les couches fully connected
+        self.gap = nn.AdaptiveAvgPool2d((1, 1))
+
+        # Couche fully connected après le GAP
+        self.fc1 = nn.Linear(512, 512)  # Augmenter la taille de cette couche
+        self.relu_fc1 = nn.ReLU()
+
+        # Augmentation de la taille des couches fully connected pour mieux capturer des relations complexes
+        self.fc2 = nn.Linear(512, 256)
+        self.relu_fc2 = nn.ReLU()
+
+        self.fc3 = nn.Linear(256, output_dim)  # Sortie à 20 classes
+        self.softmax = nn.Softmax(dim=1)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.relu1(x)
+        x = self.bn1(x)
+
+        x = self.conv2(x)
+        x = self.relu2(x)
+        x = self.bn2(x)
+
+        x = self.conv3(x)
+        x = self.relu3(x)
+        x = self.bn3(x)
+
+        x = self.conv4(x)
+        x = self.relu4(x)
+        x = self.bn4(x)
+
+        # Appliquer le Global Average Pooling
+        x = self.gap(x)
+        x = x.view(x.size(0), -1)  # Aplatir pour passer à la couche fully connected
+
+        x = self.fc1(x)
+        x = self.relu_fc1(x)
+
+        x = self.fc2(x)
+        x = self.relu_fc2(x)
+
+        x = self.fc3(x)
+        x = self.softmax(x)  # Calcul des probabilités pour chaque classe
+
+        return x
